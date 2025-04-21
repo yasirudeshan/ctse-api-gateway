@@ -31,8 +31,8 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          docker build -t rpyasiru/api-gateway:04-19 ./api-gateway
-          docker push rpyasiru/api-gateway:04-19
+          docker build -t rpyasiru/api-gateway:latest .
+          docker push rpyasiru/api-gateway:latest
 
       - name: SSH and Deploy to EC2
         uses: appleboy/ssh-action@v1.0.3
