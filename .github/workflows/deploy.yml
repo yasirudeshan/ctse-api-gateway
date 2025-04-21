@@ -20,7 +20,6 @@ jobs:
           distribution: 'temurin'
 
       - name: Build JAR with Maven
-        working-directory: ./api-gateway
         run: mvn clean package -DskipTests
 
       - name: Log in to Docker Hub
@@ -42,7 +41,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            docker pull rpyasiru/api-gateway:04-19
+            docker pull rpyasiru/api-gateway:latest
 
             docker stop api-gateway || true
             docker rm api-gateway || true
