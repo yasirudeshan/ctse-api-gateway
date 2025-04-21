@@ -31,8 +31,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           mvn verify sonar:sonar \
-            -Dsonar.projectKey=your_project_key \
-            -Dsonar.organization=your_org_key \  # Only for SonarCloud
+            -Dsonar.projectKey=CTSE_dev_ctse-api-gateway\
+            -Dsonar.organization=ctse-dev \  # Only for SonarCloud
             -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
