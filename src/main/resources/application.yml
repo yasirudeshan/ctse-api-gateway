@@ -1,0 +1,116 @@
+spring:
+  application:
+    name: API-GATEWAY
+  main:
+    web-application-type: reactive
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: USER-SERVICE
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path= /api/v1/users/**
+          filters:
+            - AuthenticationFilter
+
+        - id: USER-SERVICE
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path= /api/v1/auth/**
+
+        - id: LEARNER-SERVICE
+          uri: lb://LEARNER-SERVICE
+          predicates:
+            - Path= /api/v1/course-enrollment/**
+          filters:
+            - AuthenticationFilter
+
+        - id: LEARNER-SERVICE
+          uri: lb://LEARNER-SERVICE
+          predicates:
+            - Path= /api/v1/progress/**
+          filters:
+            - AuthenticationFilter
+
+        - id: COURSE-SERVICE
+          uri: lb://COURSE-SERVICE
+          predicates:
+            - Path= /api/v1/course-controller/**
+          filters:
+            - AuthenticationFilter
+
+        - id: COURSE-SERVICE
+          uri: lb://COURSE-SERVICE
+          predicates:
+            - Path= /api/v1/module-controller/**
+          filters:
+            - AuthenticationFilter
+
+        - id: PAYMENT-SERVICE
+          uri: lb://PAYMENT-SERVICE
+          predicates:
+            - Path= /api/v1/payment/**
+
+        - id: PAYMENT-SERVICE
+          uri: lb://PAYMENT-SERVICE
+          predicates:
+            - Path= /api/v1/payment-details/**
+          filters:
+            - AuthenticationFilter
+
+        - id: CONTENT-SERVICE
+          uri: lb://CONTENT-SERVICE
+          predicates:
+            - Path= /api/v1/content-controller/**
+          filters:
+            - AuthenticationFilter
+
+        - id: CONTENT-SERVICE
+          uri: lb://CONTENT-SERVICE
+          predicates:
+            - Path= /api/v1/reading-controller/**
+          filters:
+            - AuthenticationFilter
+
+        - id: CONTENT-SERVICE
+          uri: lb://CONTENT-SERVICE
+          predicates:
+            - Path= /api/v1/quiz/**
+          filters:
+            - AuthenticationFilter
+
+        - id: CONTENT-SERVICE
+          uri: lb://CONTENT-SERVICE
+          predicates:
+            - Path= /api/v1/score/**
+          filters:
+            - AuthenticationFilter
+server:
+  port: 9191
+
+token:
+  secret:
+    key: hehe
+  expirationms: 36000000
+
+#eureka:
+#  instance:
+#    prefer-ip-address: true
+#    hostname: eureka-0
+#  client:
+#    registerWithEureka: true
+#    fetchRegistry: true
+#    service-url:
+#      defaultZone: http://eureka-0.eureka.default.svc.cluster.local:8761/eureka
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    service-url:
+      defaultZone: http://api-gateway:8761/eureka/
+  instance:
+    prefer-ip-address: true
