@@ -19,6 +19,23 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Cache Sonar packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: SonarQube Scan
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          mvn verify sonar:sonar \
+            -Dsonar.projectKey=your_project_key \
+            -Dsonar.organization=your_org_key \  # Only for SonarCloud
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
       - name: Build JAR with Maven
         run: mvn clean package -DskipTests
 
@@ -56,4 +73,4 @@ jobs:
               -e SPRING_PROFILES_ACTIVE=docker \
               -e TOKEN_SECRET_KEY=hehe \
               -e TOKEN_EXPIRATIONMS=36000000 \
-              rpyasiru/api-gateway:04-19
+              rpyasiru/api-gateway:latest
