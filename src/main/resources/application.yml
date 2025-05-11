@@ -106,6 +106,7 @@ token:
 #    service-url: 
 #      defaultZone: http://eureka-0.eureka.default.svc.cluster.local:8761/eureka
 
+#updating the eureka client to use the api-gateway service name
 eureka:
   client:
     registerWithEureka: true
